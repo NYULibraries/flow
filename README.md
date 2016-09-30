@@ -1,5 +1,5 @@
 # flow
-a digitization-project tracking tool  
+a digitization-project tracking system
 
 ## goals
 * develop and deploy a minimal application that supports digitization project tracking and reporting 
