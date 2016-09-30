@@ -78,7 +78,8 @@ a digitization-project tracking system
         * updates the `JSON` representation, setting the `step` attribute to `rejected`
         * `POST`s the updated `JSON` to the `Tracking URL`
 
-## required development ([Pivotal Tracker project](https://www.pivotaltracker.com/n/projects/1362644))
+## required development 
+(see [Pivotal Tracker project](https://www.pivotaltracker.com/n/projects/1362644))
 * [ ] add `se` resources to rsbe application  
 * [ ] update [`rsbe::client`](https://github.com/jgpawletko/rsbe-client) gem to support `se` operations  
 * [ ] develop ArchivesSpace work order parsing library  
