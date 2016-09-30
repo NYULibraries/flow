@@ -80,10 +80,6 @@ a digitization-project tracking system
 
 ## required development 
 (see [Pivotal Tracker project](https://www.pivotaltracker.com/n/projects/1362644))
-* [ ] add `se` resources to rsbe application  
-* [ ] update [`rsbe::client`](https://github.com/jgpawletko/rsbe-client) gem to support `se` operations  
-* [ ] develop ArchivesSpace work order parsing library  
-* [ ] develop `Unit of Work Generator` script  
 * [ ] decide on initial functionality and framework for `Flow Web UI` (`Rails`, `React`, `Angular`, `Blacklight`, something else?)
 * [ ] determine `Flow Web UI` authentication and authorization requirements, propose "read only" functionality initially
 * [ ] develop Directory monitoring script(s), could probably be one script with behavior modified via environment variables
