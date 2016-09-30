@@ -8,7 +8,7 @@ a digitization-project tracking system
 
 
 ## 10,000 foot view
-* An `Archivist` generates a `Work Order File` and gives it to the appropriate `Digitization Team`
+* An `Archivist` generates a `Work Order File` and delivers it to the appropriate `Digitization Team`
 * The `Digitization Team Manager` runs a script on the `Work Order File` that creates `Unit of Work` directories 
 * Each `Unit of Work` directory contains a `Tracking URL`
 * A `Digitization Team Member` processes the `Unit of Work` directory through the `Digitization Steps`
@@ -36,7 +36,7 @@ a digitization-project tracking system
 * An `Archivist` uses the ArchivesSpace UI to select the `Item`s they want digitized
 * The `Archivist` generates a `Work Order File` using the ArchivesSpace work-order plugin 
   * the `Work Order File` contains one line per `Item`
-* The `Archivist` delivers `Work Order` to appropriate `Digitization Team`
+* The `Archivist` delivers the `Work Order File` to the appropriate `Digitization Team` [1]
 * The `Digitization Team Manager` runs the `Unit of Work Generator` script that:
   * asks the `Digitization Manager` to select the R* `partner` and `collection`
   * processes the `Work Order File` line-by-line
