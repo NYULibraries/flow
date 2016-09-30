@@ -42,9 +42,11 @@ a digitization-project tracking system
   * processes the `Work Order File` line-by-line
     * for each line the script:
       * parses the line, extracting the relevant information like the `Digitization ID`, and `Archival Object URI` [3]
-      * `POST`s a `JSON` request to the `rsbe` API to create a `source entity (se)` resource
-      * processes the `rsbe` response, which contains the `se` URL on successful se creation
-      * creates a directory with the `cuid` generates directories with the proper names
+      * transforms the information if required, e.g., converting `.` to `_` in `Digitization ID`s
+      * `POST`s a `JSON` request to the `rsbe` API to create a `source entity (se)` resource in the appropriate R\* `collection`
+      * processes the `rsbe` response, which contains the `se URL` on successful `se` resource creation
+      * creates the `Unit of Work` directory on the local machine named with the `Digitization ID` value
+      * writes the `se URL` to a file named `tracking_url` stored in the `Unit of Work` directory
 
 ## enhancements to infrastructure
 * add `work order uuid` to ArchivesSpace work-order plug-in
