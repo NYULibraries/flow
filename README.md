@@ -33,14 +33,17 @@ a digitization-project tracking system
 * `Monitoring Script`s watch the `QC` and `Upload` directories and update `Unit of Work` status via the `Tracking URL`
 
 ## 100 foot view
-* `Archivist` generates a `Work Order` using the ArchivesSpace work-order plugin 
-* `Archivist` delivers `Work Order` to appropriate digitization team
-* The `Digitization Team Manager` runs a `Work-order-processing script` that:
+* An `Archivist` uses the ArchivesSpace UI to select the `Item`s they want digitized
+* The `Archivist` generates a `Work Order File` using the ArchivesSpace work-order plugin 
+  * the `Work Order File` contains one line per `Item`
+* The `Archivist` delivers `Work Order` to appropriate `Digitization Team`
+* The `Digitization Team Manager` runs the `Unit of Work Generator` script that:
   * asks the `Digitization Manager` to select the R* `partner` and `collection`
   * processes the `Work Order File` line-by-line
     * for each line the script:
-      * `POST`s a `JSON` request to the `rsbe` API to create a `source entity resource (se)`
-      * `rsbe` creates an `se` resource and returns the `se` URL
+      * parses the line, extracting the relevant information like the `Digitization ID`, and `Archival Object URI` [3]
+      * `POST`s a `JSON` request to the `rsbe` API to create a `source entity (se)` resource
+      * processes the `rsbe` response, which contains the `se` URL on successful se creation
       * creates a directory with the `cuid` generates directories with the proper names
 
 ## enhancements to infrastructure
@@ -48,3 +51,4 @@ a digitization-project tracking system
 
 [1] [ ] Eric, is this correct? does the `Work Order` go to `Project Manager` first?
 [2] [ ] need to check with `Digitization Teams` to see if the use of a `Rejected Directory` is acceptable
+[3] [ ] TODO: analyze work order file to determine minimal required information, and which information should be part of the SE
