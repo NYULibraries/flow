@@ -83,7 +83,7 @@ a digitization-project tracking system
 * [ ] update [`rsbe::client`](https://github.com/jgpawletko/rsbe-client) gem to support `se` operations  
 * [ ] develop ArchivesSpace work order parsing library  
 * [ ] develop `Unit of Work Generator` script  
-* [ ] decide on initial functionality and framework for `Flow Web UI`
+* [ ] decide on initial functionality and framework for `Flow Web UI` (`Rails`, `React`, `Angular`, `Blacklight`, something else?)
 * [ ] determine `Flow Web UI` authentication and authorization requirements, propose "read only" functionality initially
 
 ## optional infrastructure enhancements
