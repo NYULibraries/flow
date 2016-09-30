@@ -38,11 +38,14 @@ a digitization-project tracking system
   * the `Work Order File` contains one line per `Item`
 * The `Archivist` delivers the `Work Order File` to the appropriate `Digitization Team` [1]
 * The `Digitization Team Manager` runs the `Unit of Work Generator` script that:
-  * asks the `Digitization Manager` to select the R* `partner` and `collection`
+  * queries the R\* Back End (`rsbe`) API for a list of `partners`
+  * asks the `Digitization Manager` to select the R* `partner` 
+  * queries the R\* Back End (`rsbe`) API for a list of `collections` belonging to the selected `partner`
+  * asks the `Digitization Manager` to select the `collection` 
   * processes the `Work Order File` line-by-line
     * for each line the script:
-      * parses the line, extracting the relevant information like the `Digitization ID`, and `Archival Object URI` [3]
-      * transforms the information if required, e.g., converting `.` to `_` in `Digitization ID`s
+      * parses the line, extracting the relevant information like the `Component Unique Identifier (cuid)`, and `Archival Object URI` [3]
+      * generates the `Digitization ID` by transforming `cuid` if required, e.g., converting `.` to `_` 
       * `POST`s a `JSON` request to the `rsbe` API to create a `source entity (se)` resource in the appropriate R\* `collection`
       * processes the `rsbe` response, which contains the `se URL` on successful `se` resource creation
       * creates the `Unit of Work` directory on the local machine named with the `Digitization ID` value
