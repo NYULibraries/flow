@@ -54,6 +54,6 @@ a digitization-project tracking system
 ## enhancements to infrastructure
 * add `work order uuid` to ArchivesSpace work-order plug-in
 
-[1] [ ] Eric, is this correct? does the `Work Order` go to `Project Manager` first?
-[2] [ ] need to check with `Digitization Teams` to see if the use of a `Rejected Directory` is acceptable
-[3] [ ] TODO: analyze work order file to determine minimal required information, and which information should be part of the SE
+[1] [ ] Eric, is this correct? does the `Work Order` go to `Project Manager` first?  
+[2] [ ] need to check with `Digitization Teams` to see if the use of a `Rejected Directory` is acceptable  
+[3] [ ] TODO: analyze work order file to determine minimal required information, and which information should be part of the SE  
