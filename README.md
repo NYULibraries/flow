@@ -78,7 +78,13 @@ a digitization-project tracking system
         * updates the `JSON` representation, setting the `step` attribute to `rejected`
         * `POST`s the updated `JSON` to the `Tracking URL`
 
-## enhancements to infrastructure
+## required development
+* [ ] add `se` resources to rsbe application
+* [ ] update `rsbe::client` gem to support `se` operations
+* [ ] develop ArchivesSpace work order parsing library
+* [ ] develop `Unit of Work Generator` script 
+
+## optional infrastructure enhancements
 * add `work order uuid` to ArchivesSpace work-order plug-in
 
 ## references/action itesm
