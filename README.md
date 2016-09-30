@@ -17,8 +17,9 @@ a digitization-project tracking system
 * `Digitization Team Managers` and `Project Managers` use the `Flow Web UI` to track `Unit of Work` status
 
 
-## 5,000 foot view
-* An `Archivist` selects the `Item`s they want digitized and generates a `Work Order File` using the ArchivesSpace work-order plugin 
+## 1,000 foot view
+* The `Archivist` uses the ArchivesSpace UI to select the `Item`s they want digitized
+* The `Archivist` generates a `Work Order File` using the ArchivesSpace work-order plugin 
 * The `Archivist` delivers the `Work Order File` to the appropriate `Digitization Team` [1]
 * The `Digitization Team Manager` runs the `Unit of Work Generator` script that:
   * creates a `Unit of Work` directory on the local machine for each `Item`
@@ -29,17 +30,9 @@ a digitization-project tracking system
 * The `Digitization Team Manager` QCs the `Unit of Work` 
   * if the `Unit of Work` **passes** QC, the `Digitization Manager` moves the `Unit of Work` to the `Upload Directory`
   * if the `Unit of Work` **fails** QC, the `Digitization Manager` moves the `Unit of Work` to the `Rejected Directory` [2]
-* `Monitoring Scripts` watch the `QC` and `Upload` directoriesdetect the addition of a `Unit of Work` directory to the `QC` directory and updates the
-* 
-  * asks the `Digitization Manager` to select the R* `partner` and `collection`
-  * processes the `Work Order File` line-by-line
-    * for each line the script:
-      * `POST`s a `JSON` request to the `rsbe` API to create a `source entity resource (se)`
-      * `rsbe` creates an `se` resource and returns the `se` URL
-      * creates a directory with the `cuid` generates directories with the proper names
+* `Monitoring Script`s watch the `QC` and `Upload` directories and update `Unit of Work` status via the `Tracking URL`
 
-
-## human-centric process steps
+## 100 foot view
 * `Archivist` generates a `Work Order` using the ArchivesSpace work-order plugin 
 * `Archivist` delivers `Work Order` to appropriate digitization team
 * The `Digitization Team Manager` runs a `Work-order-processing script` that:
