@@ -36,7 +36,7 @@ a digitization-project tracking system
 * An `Archivist` uses the ArchivesSpace UI to select the `Item`s they want digitized
 * The `Archivist` generates a `Work Order File` using the ArchivesSpace work-order plugin 
   * the `Work Order File` contains one line per `Item`
-* The `Archivist` delivers the `Work Order File` to the appropriate `Digitization Team` [1]
+* The `Archivist` delivers the `Work Order File` to the appropriate `Digitization Team`
 * The `Digitization Team Manager` runs the `Unit of Work Generator` script that:
   * queries the R\* Back End (`rsbe`) API for a list of `partners`
   * asks the `Digitization Manager` to select the R* `partner` 
@@ -79,17 +79,19 @@ a digitization-project tracking system
         * `POST`s the updated `JSON` to the `Tracking URL`
 
 ## required development
-[ ] add `se` resources to rsbe application  
-[ ] update `rsbe::client` gem to support `se` operations  
-[ ] develop ArchivesSpace work order parsing library  
-[ ] develop `Unit of Work Generator` script  
+* [ ] add `se` resources to rsbe application  
+* [ ] update [`rsbe::client`](https://github.com/jgpawletko/rsbe-client) gem to support `se` operations  
+* [ ] develop ArchivesSpace work order parsing library  
+* [ ] develop `Unit of Work Generator` script  
+* [ ] decide on initial functionality and framework for `Flow Web UI`
+* [ ] determine `Flow Web UI` authentication and authorization requirements, propose "read only" functionality initially
 
 ## optional infrastructure enhancements
 * add `work order uuid` to ArchivesSpace work-order plug-in
 
-## references/action itesm
-[1] [ ] Eric, is this correct? does the `Work Order` go to `Project Manager` first?  
-[2] [ ] need to check with `Digitization Teams` to see if the use of a `Rejected Directory` is acceptable  
-[3] [ ] TODO: analyze work order file to determine minimal required information, and which information should be part of the SE  
-[4] I propose that we do *not* track this initially
-[5] `fsevent`? `cron` job?
+## references/action items
+* [1] Eric, is this correct? does the `Work Order` go to `Project Manager` first?  
+* [2] need to check with `Digitization Teams` to see if the use of a `Rejected Directory` is acceptable  
+* [3] TODO: analyze work order file to determine minimal required information, and which information should be part of the SE  
+* [4] I propose that we do *not* track this initially
+* [5] `fsevent`? `cron` job?
