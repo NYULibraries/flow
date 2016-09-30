@@ -8,12 +8,13 @@ a digitization-project tracking system
 
 
 ## 10,000 foot view
-* `Archivists` generate `Work Order Files` and give them to `Digitization Teams`
-* `Digitization Team Managers` run a script on the `Work Order Files` that create `Unit of Work` directories
-* The `Unit of Work` directories contain a tracking URL
-* As the `Unit of Work` directories move through the digitization process, `Monitoring Scripts` update the status of the `Unit of Work`  via the tracking URL
-* `Digitization Team Managers` and `Project Managers` can use the `Flow Web Application UI` to check the status of `Units of Work`
-
+* An `Archivist` generates a `Work Order File` and gives it to the appropriate `Digitization Team`
+* A `Digitization Team Manager` runs a script on the `Work Order File` that creates `Unit of Work` directories 
+* Each `Unit of Work` directory contains a tracking URL
+* A `Digitization Team Member` moves the `Unit of Work` directory through the digitization process steps
+* As the `Unit of Work` is processed, `Monitoring Scripts` update the `Unit of Work` status via the tracking URL
+* The `Unit of Work` status is available via a web application: the `Flow Web UI`
+* `Digitization Team Managers` and `Project Managers` use the `Flow Web UI` to search for and check the status of `Units of Work`
 
 
 ## human-centric process overview
