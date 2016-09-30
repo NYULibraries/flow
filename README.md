@@ -11,18 +11,18 @@ a digitization-project tracking system
 * An `Archivist` generates a `Work Order File` and gives it to the appropriate `Digitization Team`
 * A `Digitization Team Manager` runs a script on the `Work Order File` that creates `Unit of Work` directories 
 * Each `Unit of Work` directory contains a `Tracking URL`
-* A `Digitization Team Member` moves the `Unit of Work` directory through the digitization process steps
+* A `Digitization Team Member` moves the `Unit of Work` directory through the `Digitization Steps`
 * As the `Unit of Work` is processed, `Monitoring Scripts` update the `Unit of Work` status via the `Tracking URL`
 * The `Unit of Work` status is available via a web application: the `Flow Web UI`
 * `Digitization Team Managers` and `Project Managers` use the `Flow Web UI` to track `Unit of Work` status
 
 
-## human-centric process overview
-* An `Archivist` generates a `Work Order file` using the ArchivesSpace work-order plugin 
-* The `Archivist` delivers the `Work Order file` to the appropriate `Digitization Team` [1]
-* The `Digitization Team Manager` runs a `Work-order-processing script` that:
-  * creates a `Unit of Work` directory on the local machine for each `Item` to be digitized
-  * places a file with a tracking URL in each `Unit of Work` directory
+## 5,000 foot view
+* An `Archivist` selects the `Item`s they want digitized and generates a `Work Order File` using the ArchivesSpace work-order plugin 
+* The `Archivist` delivers the `Work Order File` to the appropriate `Digitization Team` [1]
+* The `Digitization Team Manager` runs the `Unit of Work Generator` script that:
+  * creates a `Unit of Work` directory on the local machine for each `Item`
+  * places the `Tracking URL` for the `Unit of Work` in the `Unit of Work` directory
 * The `Digitization Team Manager` assigns work to a `Digitization Team Member`
 * The `Digitization Team Member` digitizes the `Item`, placing the digital-object files into the `Unit of Work` directory
 * The `Digitization Team Member` moves the `Unit of Work` directory to the `QC` directory
