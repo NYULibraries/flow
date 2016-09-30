@@ -18,7 +18,7 @@ a digitization-project tracking system
 
 
 ## 1,000 foot view
-* The `Archivist` uses the ArchivesSpace UI to select the `Item`s they want digitized
+* An `Archivist` uses the ArchivesSpace UI to select the `Item`s they want digitized
 * The `Archivist` generates a `Work Order File` using the ArchivesSpace work-order plugin 
 * The `Archivist` delivers the `Work Order File` to the appropriate `Digitization Team` [1]
 * The `Digitization Team Manager` runs the `Unit of Work Generator` script that:
