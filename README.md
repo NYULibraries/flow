@@ -53,10 +53,30 @@ a digitization-project tracking system
 * The `Digitization Team Manager` assigns the `Unit of Work` to a `Digitization Team Member` [4]
 * The `Digitization Team Member` digitizes the `Item`, placing the digital-object files into the `Unit of Work` directory
 * The `Digitization Team Member` moves the `Unit of Work` directory to the `QC Directory`
+  * the `QC Directory Monitor` runs [5] and:
+    * for each `Unit of Work` directory in the `QC Directory`
+      * reads the `tracking_url` file
+      * performs a `GET` on the `Tracking URL` to the the `JSON` representation of the `se`
+      * if the `step` attribute is not == `qc`, then
+        * updates the `JSON` representation, setting the `step` attribute to `qc`
+        * `POST`s the updated `JSON` to the `Tracking URL`
 * The `Digitization Team Manager` QCs the `Unit of Work` 
   * if the `Unit of Work` **passes** QC, the `Digitization Manager` moves the `Unit of Work` to the `Upload Directory`
+    * the `Upload Directory Monitor` runs [5] and:
+    * for each `Unit of Work` directory in the `Upload Directory`
+      * reads the `tracking_url` file
+      * performs a `GET` on the `Tracking URL` to the the `JSON` representation of the `se`
+      * if the `step` attribute is not == `upload`, then
+        * updates the `JSON` representation, setting the `step` attribute to `upload`
+        * `POST`s the updated `JSON` to the `Tracking URL`
   * if the `Unit of Work` **fails** QC, the `Digitization Manager` moves the `Unit of Work` to the `Rejected Directory` [2]
-* `Monitoring Script`s watch the `QC` and `Upload` directories and update `Unit of Work` status via the `Tracking URL`
+    * the `Rejected Directory Monitor` runs [5] and:
+    * for each `Unit of Work` directory in the `Rejected Directory`
+      * reads the `tracking_url` file
+      * performs a `GET` on the `Tracking URL` to the the `JSON` representation of the `se`
+      * if the `step` attribute is not == `rejected`, then
+        * updates the `JSON` representation, setting the `step` attribute to `rejected`
+        * `POST`s the updated `JSON` to the `Tracking URL`
 
 ## enhancements to infrastructure
 * add `work order uuid` to ArchivesSpace work-order plug-in
@@ -66,3 +86,4 @@ a digitization-project tracking system
 [2] [ ] need to check with `Digitization Teams` to see if the use of a `Rejected Directory` is acceptable  
 [3] [ ] TODO: analyze work order file to determine minimal required information, and which information should be part of the SE  
 [4] I propose that we do *not* track this initially
+[5] `fsevent`? `cron` job?
