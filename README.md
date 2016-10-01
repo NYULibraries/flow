@@ -38,9 +38,9 @@ a digitization-project tracking system
   * the `Work Order File` contains one line per `Item`
 * The `Archivist` delivers the `Work Order File` to the appropriate `Digitization Team`
 * The `Digitization Team Manager` runs the `Unit of Work Generator` script that:
-  * queries the R\* Back End (`rsbe`) API for a list of `partners`
-  * asks the `Digitization Manager` to select the R* `partner` 
-  * queries the R\* Back End (`rsbe`) API for a list of `collections` belonging to the selected `partner`
+  * gets a list of `partners` via the `rsbe::client` gem
+  * asks the `Digitization Manager` to select the `partner` 
+  * gets a list of `collections` belonging to the selected `partner` via the `rsbe::client` gem 
   * asks the `Digitization Manager` to select the `collection` 
   * processes the `Work Order File` line-by-line
     * for each line the script:
