@@ -46,8 +46,8 @@ a digitization-project tracking system
     * for each line the script:
       * parses the line, extracting the relevant information like the `Component Unique Identifier (cuid)`, and `Archival Object URI` [3]
       * generates the `Digitization ID` by copying and/or transforming the `cuid`, e.g., converting `.` to `_` 
-      * `POST`s a `JSON` request to the `rsbe` API to create a `source entity (se)` resource in the appropriate R\* `collection`
-      * processes the `rsbe` response, which contains the `se URL` on successful `se` resource creation
+      * instantiates an `se` object that belongs to the selected `collection` and saves it using the `rsbe::client` gem
+      * checks the status of the save operation
       * creates the `Unit of Work` directory on the local machine named with the `Digitization ID` value
       * writes the `se URL` to a file named `tracking_url` in the `Unit of Work` directory
 * The `Digitization Team Manager` assigns the `Unit of Work` to a `Digitization Team Member` [4]
@@ -56,7 +56,7 @@ a digitization-project tracking system
   * the `QC Directory Monitor` runs [5] and:
     * for each `Unit of Work` directory in the `QC Directory`
       * reads the `tracking_url` file
-      * performs a `GET` on the `Tracking URL` to the the `JSON` representation of the `se`
+      * gets the current status of the `se` by passing the `Tracking URL` to the `rsbe::client` gem 
       * if the `step` attribute is not == `qc`, then
         * updates the `JSON` representation, setting the `step` attribute to `qc`
         * `POST`s the updated `JSON` to the `Tracking URL`
