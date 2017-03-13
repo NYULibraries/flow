@@ -1,4 +1,4 @@
-## `state` Directory to `rsbe phase, step, status` Mapping 
+## Mapping: `state` Directory to `rsbe phase, step, status`
 
 ```
 |-------------+--------------+--------------+--------|
