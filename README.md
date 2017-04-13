@@ -63,7 +63,7 @@ a digitization-project tracking system
 	  * e.g.,
 	  ```
 	  $ find . -type f
-	  fales_gcn_231_1234/.rstar/`tracking_url`
+	  fales_gcn_231_1234/.rstar/tracking_url
 	  ```
 * The `Digital Content Manager` assigns the `Unit of Work` to a `Digitization Specialist` [4]
 * The `Digitization Specialist` digitizes the `Item`, placing the digital-object files into the `Unit of Work` directory
