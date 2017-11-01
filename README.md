@@ -25,10 +25,10 @@ a digitization-project tracking system
     * creates a `Unit of Work` directory, using the `Digitization ID` as the directory name
 * The `Digital Content Manager` assigns the `Unit of Work` to a `Digitization Specialist`
 * The `Digitization Specialist` digitizes the `Item`, placing the digital-object files into the `Unit of Work` directory
-* The `Digitization Specialist` moves the `Unit of Work` directory to the `QC Directory`
+* The `Digitization Specialist` moves the `Unit of Work` directory to the `QC` directory
 * The `Digital Content Manager` performs a Quality Control check on the `Unit of Work`
   * if the `Unit of Work` **passes** the Quality Control check, the `Digitization Manager` moves the `Unit of Work` to the `ToServer` directory
-  * if the `Unit of Work` **fails** the Quality Control check, the `Digitization Manager` moves the `Unit of Work` to the `DoubleCheck Directory` 
+  * if the `Unit of Work` **fails** the Quality Control check, the `Digitization Manager` moves the `Unit of Work` to the `DoubleCheck` directory 
 * A `Directory Monitoring Script` watches various directories and updates `Unit of Work` statuses using the `Digitization ID`s as a key
 
 ## 100 foot view
@@ -61,9 +61,9 @@ a digitization-project tracking system
 * The `Digitization Specialist` moves the `Unit of Work` directory to the `Processing` directory and waits 5 minutes to allow the `Directory Monitoring Script` to update the status in `Flow`
 * The `Digitization Specialist` moves the `Unit of Work` directory to their local machine
 * The `Digitization Specialist` digitizes the `Item`, placing the digital-object files into the `Unit of Work` directory
-* The `Digitization Specialist` moves the `Unit of Work` directory to the `QC Directory`
+* The `Digitization Specialist` moves the `Unit of Work` directory to the `QC` directory
   * the `Directory Monitoring Script` runs and:
-    * for each `Unit of Work` directory in the `QC Directory`
+    * for each `Unit of Work` directory in the `QC` directory
       * looks up `se` in `Flow` using the `Digitization ID` 
       * sets the `se` status to `QC`
 * The `Digital Content Manager` QCs the `Unit of Work`
