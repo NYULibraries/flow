@@ -9,28 +9,27 @@ a digitization-project tracking system
 
 ## 10,000 foot view
 * An `Archivist` generates a `Work Order File` and delivers it to the appropriate `Digitization Team`
-* The `Digital Content Manager` runs a script on the `Work Order File` that creates `Unit of Work` directories
-* Each `Unit of Work` directory contains a `Tracking URL`
+* The `Digital Content Manager` runs a script on the `Work Order File` that creates entries in the `Flow` system and `Unit of Work` directories on the file system
 * A `Digitization Specialist` processes the `Unit of Work` directory through the `Digitization Steps`
-* As the `Unit of Work` is processed, `Monitoring Scripts` update the `Unit of Work` status via the `Tracking URL`
+* As the `Unit of Work` is processed, a `Monitoring Script` updates the `Unit of Work` status in the `Flow system`
 * The `Unit of Work` status is available via a web application: the `Flow Web UI`
 * `Digital Content Managers` and `Project Managers` use the `Flow Web UI` to track `Unit of Work` statuses
-
 
 ## 1,000 foot view
 * An `Archivist` uses the ArchivesSpace UI to select the `Item`s they want digitized
 * The `Archivist` generates a `Work Order File` using the ArchivesSpace work-order plugin
-* The `Archivist` delivers the `Work Order File` to the appropriate `Digitization Team` [1]
-* The `Digital Content Manager` runs the `Work Order Processor` script that:
-  * creates a `Unit of Work` directory on the local machine for each `Item`
-  * places the `Tracking URL` for the `Unit of Work` in the `Unit of Work` directory
+* The `Archivist` delivers the `Work Order File` to the `Digitization Team` 
+* The `Digital Content Manager` runs the `Work Order Processor` script
+  * for each line in the `Work Order File` the script:
+    * creates a `Digitization ID` and stores that in a `Source Entity` (`se`) record in `Flow`
+    * creates a `Unit of Work` directory, using the `Digitization ID` as the directory name
 * The `Digital Content Manager` assigns the `Unit of Work` to a `Digitization Specialist`
 * The `Digitization Specialist` digitizes the `Item`, placing the digital-object files into the `Unit of Work` directory
 * The `Digitization Specialist` moves the `Unit of Work` directory to the `QC Directory`
 * The `Digital Content Manager` performs a Quality Control check on the `Unit of Work`
-  * if the `Unit of Work` **passes** the Quality Control check, the `Digitization Manager` moves the `Unit of Work` to the `Upload Directory`
-  * if the `Unit of Work` **fails** the Quality Control check, the `Digitization Manager` moves the `Unit of Work` to the `Rejected Directory` [2]
-* `Monitoring Script`s watch the `QC` and `Upload` directories and update `Unit of Work` status via the `Tracking URL`
+  * if the `Unit of Work` **passes** the Quality Control check, the `Digitization Manager` moves the `Unit of Work` to the `ToServer` directory
+  * if the `Unit of Work` **fails** the Quality Control check, the `Digitization Manager` moves the `Unit of Work` to the `DoubleCheck Directory` 
+* A `Directory Monitoring Script` watches various directories and updates `Unit of Work` statuses using the `Digitization ID`s as a key
 
 ## 100 foot view
 * An `Archivist` uses the ArchivesSpace UI to select the `Item`s they want digitized
@@ -43,54 +42,45 @@ a digitization-project tracking system
   * gets a list of `collections` that belong to the selected `partner` via the `rsbe::client` gem
   * asks the `Digitization Manager` to select the `collection`
   * processes the `Work Order File` line-by-line
-    * for each line the `Work Order Processor` script:
+    * for each line in the `Work Order File` the `Work Order Processor` script:
       * parses the line to extract the relevant information, e.g.,  the `Component Unique Identifier (cuid)`, and `Archival Object URI` [3]
-      * generates the `Digitization ID` per the following template: ```<partner code>_<collection code>_<cuid with '.' replaced with '_'>```
+      * generates the `Digitization ID` per the following template: ```<partner code>_<collection code>_<cuid> with '.' replaced with '_'>```
         * e.g.,
 	    ```
-          Given:
+          Given
             partner_code    = 'fales'
 		    collection_code = 'gcn'
 		    cuid            = '231.1234'
 		  Then
 		    digitization_id = 'fales_gcn_231_1234'
 	    ```
-      * instantiates an `se` object that belongs to the selected `collection` and saves it using the `rsbe::client` gem
+      * instantiates an `se` object that belongs to the selected `collection` and saves it to `Flow` using the `rsbe::client` gem
       * checks the status of the save operation
-      * creates the `Unit of Work` directory on the local machine named with the `Digitization ID` value
-      * creates a subdirectory `.rstar` in the `Unit of Work` directory for storing tracking information
-      * writes the `se URL` to a file named ``tracking_url`` in the `Unit of Work/.rstar` directory
-	  * e.g.,
-	  ```
-	  $ find . -type f
-	  fales_gcn_231_1234/.rstar/tracking_url
-	  ```
-* The `Digital Content Manager` assigns the `Unit of Work` to a `Digitization Specialist` [4]
+      * creates the `Unit of Work` directory on the `atkins-SAN` volume using the `Digitization ID` for the directory name
+* The `Digital Content Manager` assigns the `Unit of Work` to a `Digitization Specialist`
+* The `Digitization Specialist` moves the `Unit of Work` directory to the `Processing` directory and waits 5 minutes to allow the `Directory Monitoring Script` to update the status in `Flow`
+* The `Digitization Specialist` moves the `Unit of Work` directory to their local machine
 * The `Digitization Specialist` digitizes the `Item`, placing the digital-object files into the `Unit of Work` directory
 * The `Digitization Specialist` moves the `Unit of Work` directory to the `QC Directory`
-  * the `QC Directory Monitor` runs [5] and:
+  * the `Directory Monitoring Script` runs and:
     * for each `Unit of Work` directory in the `QC Directory`
-      * reads the ``tracking_url`` file
-      * gets the current status of the `se` by passing the `Tracking URL` to the `rsbe::client` gem
-      * if the `step` attribute is not == `qc`, then
-        * updates the `JSON` representation, setting the `step` attribute to `qc`
-        * `POST`s the updated `JSON` to the `Tracking URL`
+      * looks up `se` in `Flow` using the `Digitization ID` 
+      * sets the `se` status to `QC`
 * The `Digital Content Manager` QCs the `Unit of Work`
-  * if the `Unit of Work` **passes** QC, the `Digitization Manager` moves the `Unit of Work` to the `Upload Directory`
-    * the `Upload Directory Monitor` runs [5] and:
-    * for each `Unit of Work` directory in the `Upload Directory`
-      * reads the ``tracking_url`` file
-      * uses the `rsbe::client` gem to look up the current state of the `se`
-	  * sets the `se` attributes \[`phase`, `step`, `status`\] = \[`upload`, `packaging`, `queued`\]
-	  * saves  the `se` object, thus updating the `se` state in the `rsbe` application
-  * if the `Unit of Work` **fails** QC, the `Digitization Manager` moves the `Unit of Work` to the `Rejected Directory` [2]
-    * the `Rejected Directory Monitor` runs [5] and:
-    * for each `Unit of Work` directory in the `Rejected Directory`
-      * reads the ``tracking_url`` file
-      * uses the `rsbe::client` gem to look up the current state of the `se`
-      * sets the `se` attributes \[`phase`, `step`, `status`\] = \[`digitization`, `qc`, `rejected`\]
-	  * saves  the `se` object, thus updating the `se` state in the `rsbe` application
+  * if the `Unit of Work` **passes** QC, the `Digitization Manager` moves the `Unit of Work` to the `ToServer` directory
+    * the `Upload Manager Cron Job` runs and:
+      * for each `Unit of Work` directory in the `ToServer` directory
+        * looks up the Flow `se` in `Flow` using the `Digitization ID` 
+        * runs automated quality control checks on the `Unit of Work`
+          * if the automated checks **fail**, the `Unit of Work` is moved into the `DoubleCheck` directory
+	  * if the automated checks **pass**, the `Unit of Work` is packaged using the Flow `se` `partner` and `collection` and uploaded to `R*`
+	    * if packaging and upload **pass**, the `Unit of Work` directory is moved to the `UploadOK` directory
+	    * if packaging and upload **fail**, the `Unit of Work` directory is moved to the `UploadFail` directory
 
+  * if the `Unit of Work` **fails** QC, the `Digitization Manager` moves the `Unit of Work` to the `DoubleCheck` directory
+
+  * every 5 minutes the `Directory Monitoring Script` runs and checks each monitored directory, updating `Flow` based on which `Unit of Work` directories are in each monitored directory.
+  
 ## required development
 (see [Pivotal Tracker project](https://www.pivotaltracker.com/n/projects/1362644))
 
@@ -99,8 +89,4 @@ a digitization-project tracking system
 
 ## references/action items
 * [directory to state mapping](DIR-TO-STATE-MAPPING.md)
-* [1] Eric, is this correct? does the `Work Order` go to `Project Manager` first?  
-* [2] need to check with `Digitization Teams` to see if the use of a `Rejected Directory` is acceptable  
-* [3] TODO: analyze work order file to determine minimal required information, and which information should be part of the SE  
-* [4] I propose that we do *not* track this initially
-* [5] `fsevent`? `cron` job?
+
