@@ -10,7 +10,7 @@ a digitization-project tracking system
 ## 10,000 foot view
 * An `Archivist` generates a `Work Order File` and delivers it to the appropriate `Digitization Team`
 * The `Digital Content Manager` runs a script on the `Work Order File` that creates entries in the `Flow` system and `Unit of Work` directories on the file system
-* A `Digitization Specialist` processes the `Unit of Work` directory through the `Digitization Steps`
+* A `Digitization Specialist` processes the `Unit of Work` directory through the various digitization steps
 * As the `Unit of Work` is processed, a `Monitoring Script` updates the `Unit of Work` status in the `Flow system`
 * The `Unit of Work` status is available via a web application: the `Flow Web UI`
 * `Digital Content Managers` and `Project Managers` use the `Flow Web UI` to track `Unit of Work` statuses
